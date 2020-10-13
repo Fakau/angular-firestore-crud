@@ -1,0 +1,38 @@
+<button nz-button nzType="primary" (click)="onAdd()">New</button><br>
+<nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed">
+  <thead>
+  <tr>
+    <th nzCustomFilter>
+      Name
+      <!--<nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+        <i nz-icon nzType="search"></i>
+      </nz-filter-trigger>-->
+    </th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of nzTable.data">
+    <td>{{ data.name }}</td>
+    <td>{{ data.email }}</td>
+    <td>{{ data.phoneNumber }}</td>
+    <td>
+      <a style="color: #f15c55" (click)="onDelete(data.id)" class="btn danger"><span class="fa fa-trash"></span></a>
+      <a style="margin-left: 5px" (click)="onEdit(data.id)" class="btn"><span class="fa fa-edit"></span></a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+      <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu>

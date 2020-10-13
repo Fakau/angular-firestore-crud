@@ -1,0 +1,42 @@
+<div nz-row>
+  <div nz-col nzSpan="8"></div>
+  <div nz-col nzSpan="8">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="nickname" nzRequired>
+              <span>
+                Name
+                <i nz-icon nz-tooltip nzTooltipTitle="What do you want other to call you" nzTheme="outline"></i>
+              </span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your name!">
+          <input nz-input id="name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+          <input nz-input formControlName="email" id="email" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>
+              <span>
+                Phone
+                <i nz-icon nz-tooltip nzTooltipTitle="What do you want other to call you" nzTheme="outline"></i>
+              </span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your phoneNumber!">
+          <input nz-input id="phoneNumber" formControlName="phoneNumber" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row class="register-area">
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+          <button nz-button nzType="primary">Save</button>
+          <button nz-button nzType="warnibg" style="margin-left: 5px" (click)="onShowList()">Cancel</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div nz-col nzSpan="8"></div>
+</div>
