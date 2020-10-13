@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {IContact} from '../../../share/contact.model';
 import {Router} from '@angular/router';
-
-interface DataItem {
-  name: string;
-  age: number;
-  address: string;
-}
+import {ContactService} from '../contact.service';
 
 @Component({
   selector: 'app-contact-list',
@@ -16,16 +11,10 @@ interface DataItem {
 export class ContactListComponent implements OnInit {
   searchValue = '';
   visible = false;
-  contacts: IContact[] = [
-    {
-      id: 1,
-      name: 'John Brown',
-      email: '32@dflks',
-      phoneNumber: '3782-4343'
-    }
-  ];
-  listOfDisplayData = [...this.contacts];
-  constructor(private router: Router) {
+  contacts: IContact[];
+  listOfDisplayData: IContact[];
+  constructor(private router: Router,
+              private service: ContactService) {
   }
 
   reset(): void {
@@ -39,16 +28,36 @@ export class ContactListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.getAll().subscribe(resp => {
+      this.contacts = resp.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as IContact;
+      });
+      this.listOfDisplayData = [...this.contacts];
+    });
   }
 
-  onEdit(id: any) {
-    this.router.navigate(['contact', 'edit', id]);
+  onEdit(contact: IContact) {
+    this.service.setContactToUpate(contact);
+    this.router.navigate(['contact', 'edit', contact.id]);
   }
   onDelete(id: number) {
     if (confirm(`Are you sure to delete this object ?`)) {
+      this.service.delete(id).then(rest => {
+        this.ngOnInit();
+      }, err => {
+        //
+      });
     }
   }
   onAdd(){
     this.router.navigate(['contact', 'new']);
   }
 }
+/*
+<!--<nz-alert nzType="success" nzMessage="Success Tips" nzShowIcon></nz-alert>
+<nz-alert nzType="info" nzMessage="Informational Notes" nzShowIcon></nz-alert>
+<nz-alert nzType="warning" nzMessage="Warning" nzShowIcon></nz-alert>
+<nz-alert nzType="error" nzMessage="Error" nzShowIcon></nz-alert>-->*/

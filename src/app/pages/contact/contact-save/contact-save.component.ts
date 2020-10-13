@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {ContactService} from '../contact.service';
 
 interface IAlertModel {
   type: string;
@@ -20,28 +21,17 @@ export class ContactSaveComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+    this.service.create(this.validateForm.value).then(resp => {
+      this.toast('success',  'success');
+      this.validateForm.reset();
+      this.onShowList();
+    }, error => {
+      this.toast('Success Tips',  'Success Tips');
+    });
   }
-
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
-
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
-
   constructor(private fb: FormBuilder,
-              private router: Router) {}
+              private router: Router,
+              private service: ContactService) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
@@ -67,3 +57,4 @@ export class ContactSaveComponent implements OnInit {
     this.alert = null;
   }
 }
+
