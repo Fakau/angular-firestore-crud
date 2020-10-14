@@ -22,11 +22,10 @@ export class ContactSaveComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
     this.service.create(this.validateForm.value).then(resp => {
-      this.toast('success',  'success');
       this.validateForm.reset();
       this.onShowList();
     }, error => {
-      this.toast('Success Tips',  'Success Tips');
+      // this.toasService.error(error);
     });
   }
   constructor(private fb: FormBuilder,
@@ -42,19 +41,6 @@ export class ContactSaveComponent implements OnInit {
   }
   onShowList(){
     this.router.navigate(['contact']);
-  }
-  toast(type, message) {
-    // tslint:disable-next-line:new-parens
-    this.alert = new class implements IAlertModel {
-      message: string;
-      type: string;
-    };
-    setTimeout(() => {
-      this.closeAlert();
-    }, 3500);
-  }
-  closeAlert(){
-    this.alert = null;
   }
 }
 

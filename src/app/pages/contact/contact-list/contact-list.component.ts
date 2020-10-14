@@ -14,7 +14,8 @@ export class ContactListComponent implements OnInit {
   contacts: IContact[];
   listOfDisplayData: IContact[];
   constructor(private router: Router,
-              private service: ContactService) {
+              private service: ContactService
+  ) {
   }
 
   reset(): void {
@@ -36,6 +37,7 @@ export class ContactListComponent implements OnInit {
         } as IContact;
       });
       this.listOfDisplayData = [...this.contacts];
+      // this.toasService.clear();
     });
   }
 
@@ -52,10 +54,11 @@ export class ContactListComponent implements OnInit {
       });
     }
   }
-  onAdd(){
+  onAdd() {
     this.router.navigate(['contact', 'new']);
   }
 }
+
 /*
 <!--<nz-alert nzType="success" nzMessage="Success Tips" nzShowIcon></nz-alert>
 <nz-alert nzType="info" nzMessage="Informational Notes" nzShowIcon></nz-alert>
