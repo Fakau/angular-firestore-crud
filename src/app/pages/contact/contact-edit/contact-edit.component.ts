@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ContactService} from '../contact.service';
+import {IContact} from '../../../share/contact.model';
 
 interface IAlertModel {
   type: string;
@@ -14,43 +16,40 @@ interface IAlertModel {
 export class ContactEditComponent implements OnInit {
   alert: IAlertModel;
   validateForm!: FormGroup;
+  contact: IContact;
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-    this.toast('success', 'success' );
+    this.service.update(this.validateForm.value).then(resp => {
+      this.onShowList();
+    }, error => {
+      //
+    });
   }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls.checkPassword.updateValueAndValidity());
-  }
-
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
   constructor(private fb: FormBuilder,
-              private router: Router) {}
+              private router: Router,
+              private actRoute: ActivatedRoute,
+              private service: ContactService) {}
 
   ngOnInit(): void {
+    this.contact = this.service.getContactToUpate(this.actRoute.snapshot.paramMap.get('id'));
+    if(this.contact === null) {
+      this.onShowList();
+    }
     this.validateForm = this.fb.group({
-      id: [null],
-      name: [null, [Validators.required]],
-      email: [null, [Validators.email, Validators.required]],
-      phoneNumber: [null, [Validators.required]]
+      id: [this.contact.id],
+      name: [this.contact.name, [Validators.required]],
+      email: [this.contact.email, [Validators.email, Validators.required]],
+      phoneNumber: [this.contact.phoneNumber, [Validators.required]]
     });
   }
   onShowList() {
     this.router.navigate(['contact']);
   }
   toast(type, message) {
-    // tslint:disable-next-line:new-parens
     this.alert = new class implements IAlertModel {
       message: string;
       type: string;

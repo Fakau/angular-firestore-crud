@@ -6,6 +6,7 @@ import { ContactSaveComponent } from './contact-save/contact-save.component';
 import {ContactRoutingModule} from './contact-routing.module';
 import {NgZorroAntdModule, NzEmptyModule, NzTableModule} from 'ng-zorro-antd';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 
 
@@ -18,7 +19,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     NzTableModule,
     NgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ]
 })
 export class ContactModule { }

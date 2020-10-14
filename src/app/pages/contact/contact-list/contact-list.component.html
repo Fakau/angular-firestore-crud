@@ -1,5 +1,5 @@
 <button nz-button nzType="primary" (click)="onAdd()">New</button><br>
-<nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed">
+<nz-table *ngIf="listOfDisplayData" #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed">
   <thead>
   <tr>
     <th nzCustomFilter>
@@ -20,7 +20,7 @@
     <td>{{ data.phoneNumber }}</td>
     <td>
       <a style="color: #f15c55" (click)="onDelete(data.id)" class="btn danger"><span class="fa fa-trash"></span></a>
-      <a style="margin-left: 5px" (click)="onEdit(data.id)" class="btn"><span class="fa fa-edit"></span></a>
+      <a style="margin-left: 5px" (click)="onEdit(data)" class="btn"><span class="fa fa-edit"></span></a>
     </td>
   </tr>
   </tbody>
