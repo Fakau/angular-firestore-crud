@@ -15,17 +15,20 @@ interface IAlertModel {
 export class ContactSaveComponent implements OnInit {
   alert: IAlertModel;
   validateForm!: FormGroup;
+  isLoading = false;
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+    this.isLoading = true;
     this.service.create(this.validateForm.value).then(resp => {
       this.validateForm.reset();
+      this.isLoading = false;
       this.onShowList();
     }, error => {
-      // this.toasService.error(error);
+      this.isLoading = false;
     });
   }
   constructor(private fb: FormBuilder,
