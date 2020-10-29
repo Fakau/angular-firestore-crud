@@ -17,15 +17,18 @@ export class ContactEditComponent implements OnInit {
   alert: IAlertModel;
   validateForm!: FormGroup;
   contact: IContact;
+  isLoading = false;
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
+    this.isLoading = true;
     this.service.update(this.validateForm.value).then(resp => {
+      this.isLoading = false;
       this.onShowList();
     }, error => {
-      //
+      this.isLoading = false;
     });
   }
 

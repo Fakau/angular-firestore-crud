@@ -7,11 +7,12 @@ import {ContactRoutingModule} from './contact-routing.module';
 import {NgZorroAntdModule, NzEmptyModule, NzTableModule} from 'ng-zorro-antd';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {LoadingComponent} from "../../share/loading/loading.component";
 
 
 
 @NgModule({
-  declarations: [ContactListComponent, ContactEditComponent, ContactSaveComponent],
+  declarations: [ContactListComponent, ContactEditComponent, ContactSaveComponent, LoadingComponent],
   imports: [
     CommonModule,
     ContactRoutingModule,

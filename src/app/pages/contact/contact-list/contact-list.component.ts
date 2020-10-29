@@ -13,6 +13,7 @@ export class ContactListComponent implements OnInit {
   visible = false;
   contacts: IContact[];
   listOfDisplayData: IContact[];
+  isLoading = false;
   constructor(private router: Router,
               private service: ContactService
   ) {
@@ -29,6 +30,7 @@ export class ContactListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.service.getAll().subscribe(resp => {
       this.contacts = resp.map(item => {
         return {
@@ -37,7 +39,7 @@ export class ContactListComponent implements OnInit {
         } as IContact;
       });
       this.listOfDisplayData = [...this.contacts];
-      // this.toasService.clear();
+      this.isLoading = false;
     });
   }
 
@@ -50,7 +52,7 @@ export class ContactListComponent implements OnInit {
       this.service.delete(id).then(rest => {
         this.ngOnInit();
       }, err => {
-        //
+        this.isLoading = false;
       });
     }
   }
